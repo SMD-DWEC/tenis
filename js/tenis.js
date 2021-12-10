@@ -18,7 +18,7 @@ class Tenis {
     //Constantes
 		this.HUMANO = 0
 		this.IA = 1
-    this.ARRIBA = Symbol()
+    this.ARRIBA = Symbol() //Con symbol me aseguro un número único
     this.ABAJO = Symbol()
 
     //Inicialización de atributos
@@ -29,7 +29,7 @@ class Tenis {
     //Control de Eventos
     window.onkeydown = this.pulsarTecla.bind(this)
     window.onkeyup = this.soltarTecla.bind(this)
-    window.onkeypress = this.teclear.bind(this)
+    window.onkeypress = this.teclear.bind(this) //pulso y suelto
     window.onload = this.iniciar.bind(this)
   }
   /**
@@ -267,30 +267,18 @@ class Vista {
     //Línea de red
     this.canvas.ctx.strokeStyle = 'white'
     this.canvas.ctx.lineWidth = 6
-    this.canvas.ctx.moveTo(campo.anchura / 2 - 5, 0)
-    this.canvas.ctx.lineTo(campo.anchura / 2 - 5, campo.altura)
+    this.canvas.ctx.moveTo(campo.anchura / 2, 0)
+    this.canvas.ctx.lineTo(campo.anchura / 2, campo.altura)
     this.canvas.ctx.stroke()
 
-    /*
-    //Línea de centro
-    canvas.ctx.lineWidth = 1
-    canvas.ctx.moveTo(WIDTH/4, HEIGHT/2)
-    canvas.ctx.lineTo(3*WIDTH/4, HEIGHT/2)
+    //Con el beginPath permite dibujar otro elemento sin sobreescribir
+    this.canvas.ctx.beginPath()
+    this.canvas.ctx.strokeStyle = "black";
+    this.canvas.ctx.lineWidth = 3;
+    this.canvas.ctx.moveTo(0, 0);
+    this.canvas.ctx.lineTo(campo.anchura, campo.altura); //La traza
+    this.canvas.ctx.stroke();
 
-    //Líneas de saque
-    canvas.ctx.moveTo(WIDTH/4, 0)
-    canvas.ctx.lineTo(WIDTH/4, HEIGHT)
-    canvas.ctx.moveTo(3*WIDTH/4, 0)
-    canvas.ctx.lineTo(3*WIDTH/4, HEIGHT)
-
-    //Líneas de banda
-    canvas.ctx.moveTo(0, HEIGHT/8)
-    canvas.ctx.lineTo(WIDTH, HEIGHT/8)
-    canvas.ctx.moveTo(0, 7*HEIGHT/8)
-    canvas.ctx.lineTo(WIDTH, 7*HEIGHT/8)
-
-    canvas.ctx.stroke()
-    */
   }
   /**
   	Dibuja la pelota.
@@ -300,8 +288,8 @@ class Vista {
     this.canvas.ctx.beginPath()
     this.canvas.ctx.arc( //cx, cy, radio, start_angle, end_angle
       pelota.posicion[0] - this.pelota.radio,
-      pelota.posicion[1], this.pelota.radio, 0, 2 * Math.PI)
-    this.canvas.ctx.fill()
+      pelota.posicion[1], this.pelota.radio, 0, 2 *Math.PI,true)
+    this.canvas.ctx.fill();
   }
   /**
   	Dibuja los Jugadores
@@ -310,11 +298,11 @@ class Vista {
     for (let i = 0; i < 2; i++) {
       this.canvas.ctx.fillStyle = this.jugadores[i].color
       this.canvas.ctx.fillRect(
-        jugadores[i].posicion[0],
+        jugadores[i].posicion[0] - this.jugadores[i].anchura / 2,
         jugadores[i].posicion[1] - this.jugadores[i].altura / 2,
         this.jugadores[i].anchura,
         this.jugadores[i].altura)
-      this.canvas.ctx.fill()
+      this.canvas.ctx.fill() //Dibuja el relleno
     }
   }
 }
